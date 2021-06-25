@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'meiqia_flutter'
-  s.version          = '0.0.2'
+  s.version          = '0.0.1'
   s.summary          = '美洽客服flutter plugin'
   s.description      = <<-DESC
 meiqia_flutter

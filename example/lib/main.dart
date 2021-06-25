@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
 
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:meiqia_flutter/meiqia_flutter.dart';
 
 void main() {
@@ -23,13 +21,20 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    //init meiqia first
+    // MeiqiaFlutter.initMeiqia("");
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: ElevatedButton(
+            onPressed: () {
+              MeiqiaFlutter.chat(customId: "1234564");
+            },
+            child: Text("test"),
+          ),
         ),
       ),
     );

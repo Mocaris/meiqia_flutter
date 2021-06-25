@@ -6,20 +6,19 @@ import UIKit
 public class SwiftMeiqiaFlutterPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "meiqia_flutter", binaryMessenger: registrar.messenger())
-        let instance = SwiftMeiqiaFlutterPlugin()
+        let instance = SwiftMeiqiaFlutterPlugin.init()
         registrar.addMethodCallDelegate(instance, channel: channel)
-        registrar.addApplicationDelegate(instance)
         MQManager.openMeiqiaService()
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        print("meiqia_flutter method =>\(call.method)--\(call.arguments)")
+        debugPrint("meiqia_flutter method =>\(call.method)--\(String(describing: call.arguments))\n")
         switch call.method {
         case "initMeiqia":
             let args = call.arguments as! [String: Any]
             let appKey = args["appKey"] as! String
             MQManager.initWithAppkey(appKey, completion: { _, error -> Void in
-                print("初始化-->\(String(describing: error))")
+                debugPrint("初始化-->\(String(describing: error))")
             })
             MQChatViewManager().enableSyncServerMessage(true)
             result(nil)
@@ -48,19 +47,19 @@ public class SwiftMeiqiaFlutterPlugin: NSObject, FlutterPlugin {
             let args = call.arguments as! [String: Any]
             let txtMessage = args["txtMessage"] as! String
             MQManager.sendTextMessage(withContent: txtMessage, completion: { _, error -> Void in
-                print("sendTextMessage:\(error == nil ? "success" : String(describing: error))")
+                debugPrint("sendTextMessage:\(error == nil ? "success" : String(describing: error))")
             })
         case "sendPicMessage":
             let args = call.arguments as! [String: Any]
             let picPath = args["picPath"] as! String
             MQManager.sendImageMessage(with: UIImage(contentsOfFile: picPath), completion: { _, error -> Void in
-                print("sendImageMessage:\(error == nil ? "success" : String(describing: error))")
+                debugPrint("sendImageMessage:\(error == nil ? "success" : String(describing: error))")
             })
         case "sendVideoMessage":
             let args = call.arguments as! [String: Any]
             let videoPath = args["videoPath"] as! String
             MQManager.sendVideoMessage(videoPath, completion: { _, error -> Void in
-                print("sendVideoMessage：\(error == nil ? "success" : String(describing: error))")
+                debugPrint("sendVideoMessage：\(error == nil ? "success" : String(describing: error))")
             })
         case "endCurrentConversation":
             MQManager.endCurrentConversation(completion: { _, _ -> Void in
