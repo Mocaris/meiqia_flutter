@@ -45,7 +45,7 @@ class MeiqiaFlutter {
   }
 
   ///设置或更新顾客列表
-  static Future<void> setClientInfo(Map<String, String> clientInfo, {bool update: true}) async {
+  static Future<void> setClientInfo(Map<String, dynamic> clientInfo, {bool update: true}) async {
     await _channel.invokeMethod('setClientInfo', {"clientInfo": clientInfo, "update": update});
   }
 
@@ -57,7 +57,7 @@ class MeiqiaFlutter {
   ///  prePicPath 预发送图片
   static Future<void> chat({
     required String customId,
-    Map<String, String>? clientInfo,
+    Map<String, dynamic>? clientInfo,
     String? agentId,
     String? preTxt,
     String? prePicPath,
