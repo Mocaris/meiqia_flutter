@@ -13,6 +13,7 @@ public class SwiftMeiqiaFlutterPlugin: NSObject, FlutterPlugin {
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        print("meiqia_flutter method =>\(call.method)--\(call.arguments)")
         switch call.method {
         case "initMeiqia":
             let args = call.arguments as! [String: Any]
@@ -24,7 +25,7 @@ public class SwiftMeiqiaFlutterPlugin: NSObject, FlutterPlugin {
             result(nil)
         case "chat":
             let args = call.arguments as! [String: Any]
-            let manager = MQChatViewManager()
+            let manager = MQChatViewManager.init()
             // 顾客ID
             let customId = args["customId"] as! String
             manager.setLoginCustomizedId(customId)
@@ -38,10 +39,10 @@ public class SwiftMeiqiaFlutterPlugin: NSObject, FlutterPlugin {
             if clientInfo != nil {
                 manager.setScheduledAgentId(agentId)
             }
-            manager.pushMQChatViewController(in: UIApplication.shared.delegate!.window!?.rootViewController)
+            manager.pushMQChatViewController(in: UIApplication.shared.delegate!.window?!.rootViewController!)
         case "chatForm":
             let manager = MQMessageFormViewManager()
-            manager.pushMQMessageFormViewController(in: UIApplication.shared.delegate!.window!?.rootViewController)
+            manager.pushMQMessageFormViewController(in: UIApplication.shared.delegate!.window?!.rootViewController!)
 
         case "sendTxtMessage":
             let args = call.arguments as! [String: Any]
@@ -73,8 +74,19 @@ public class SwiftMeiqiaFlutterPlugin: NSObject, FlutterPlugin {
             result(FlutterMethodNotImplemented)
         }
     }
+    public func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        MQManager.registerDeviceToken(deviceToken)
+    }
+    
+    public func applicationWillEnterForeground(_ application: UIApplication) {
+        MQManager.openMeiqiaService()
+    }
+    
+    public func applicationDidEnterBackground(_ application: UIApplication) {
+        MQManager.closeMeiqiaService()
+    }
 
     public func detachFromEngine(for registrar: FlutterPluginRegistrar) {
-        MQManager.closeMeiqiaService()
+        
     }
 }
