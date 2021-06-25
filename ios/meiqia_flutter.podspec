@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 meiqia_flutter
                        DESC
-  s.homepage         = ''
+  s.homepage         = 'http://example.com'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Mocaris' => 'imocaris@outlook.com' }
   s.source           = { :path => '.' }
